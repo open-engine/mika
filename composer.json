@@ -1,8 +1,7 @@
 {
     "name": "ka-apps/mika",
-    "description": "A short description of what your package does",
+    "description": "Mika Framework",
     "require": {
-        "php": "^5.3.3 || ^7.0",
-        "another-vendor/package": "1.*"
+        "php": "~7.2"
     }
 }

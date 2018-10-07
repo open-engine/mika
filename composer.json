@@ -1,6 +1,5 @@
 {
     "name": "ka-apps/mika",
-    "version": "0.0.1",
     "description": "Mika Framework",
     "license": "GPL-3.0-or-later",
     "require": {

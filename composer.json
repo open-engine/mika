@@ -2,7 +2,29 @@
     "name": "open-engine/mika",
     "description": "Mika Framework",
     "license": "GPL-3.0-or-later",
+    "type": "library",
+    "keywords": [
+        "framework",
+        "php",
+        "mika"
+    ],
+    "authors": [
+        {
+            "name": "Akmal Kadirov",
+            "email": "akmal@kadirov.org",
+            "homepage": "http://kadirov.org/",
+            "role": "Founder and project lead"
+        }
+    ],
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
+    },
     "require": {
         "php": "~7.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.4"
     }
 }

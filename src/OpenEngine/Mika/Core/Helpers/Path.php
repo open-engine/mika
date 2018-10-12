@@ -9,23 +9,23 @@ namespace OpenEngine\Mika\Core\Helpers;
 class Path
 {
     /**
+     * @var string[]
+     */
+    public static $pathNames;
+    /**
      * @var string
      */
     private static $root;
 
     /**
-     * @var string[]
-     */
-    public static $pathNames;
-
-    /**
      * Get root directory
      *
+     * @todo throw exception when $root is not defined
      * @return string
      */
     public static function getRoot(): string
     {
-        return self::$root;
+        return static::$root;
     }
 
     /**
@@ -35,7 +35,7 @@ class Path
      */
     public static function setRoot(string $root): void
     {
-        self::$root = $root;
+        static::$root = $root;
     }
 
     /**
@@ -45,18 +45,46 @@ class Path
      */
     public static function getWeb(): string
     {
-        return self::get('web');
+        return static::get('web');
+    }
+
+    /**
+     * Path to src directory
+     *
+     * @return string
+     */
+    public static function getSrc(): string
+    {
+        return static::get('src');
+    }
+
+    /**
+     * Alias of
+     * ```
+     * Path::getSrc() . '/' . $path
+     * ```
+     *
+     * @param string $path
+     * @return string
+     */
+    public static function src(string $path): string
+    {
+        return static::getSrc() . '/' . $path;
     }
 
     /**
      * Get absolute path
      *
+     * Alias of
+     * ```
+     * Path::get() . '/' . $path
+     * ```
      * @param string $path
      * @return string
      */
     public static function get(string $path): string
     {
-        return self::getRoot() . '/' . $path;
+        return static::getRoot() . '/' . $path;
     }
 
     /**
@@ -67,8 +95,8 @@ class Path
      */
     public static function getName(string $name): ?string
     {
-        if (isset(self::$pathNames[$name])) {
-            return self::get(self::$pathNames[$name]);
+        if (isset(static::$pathNames[$name])) {
+            return static::get(static::$pathNames[$name]);
         }
 
         return null;
@@ -82,6 +110,15 @@ class Path
      */
     public static function addName(string $name, string $path): void
     {
-        self::$pathNames[$name] = $path;
+        static::$pathNames[$name] = $path;
+    }
+
+    /**
+     * @param string $namespace
+     * @return string
+     */
+    public static function getPathByNamespace(string $namespace): string
+    {
+        return static::src(\str_replace('\\', '/', $namespace));
     }
 }

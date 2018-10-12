@@ -79,15 +79,6 @@ class Uri implements UriInterface
             ->setPath(parse_url($uri, PHP_URL_PATH))
             ->setQuery(parse_url($uri, PHP_URL_QUERY))
             ->setFragment(parse_url($uri, PHP_URL_FRAGMENT));
-
-//        parse_url($)
-//        $this->scheme = $_SERVER['REQUEST_SCHEME'] ?? '';
-//        $this->user = $_SERVER['USER'] ?? '';
-//        $this->host = $_SERVER['HTTP_HOST'] ?? '';
-//        $this->port = empty($_SERVER['SERVER_PORT']) ? null : (int)$_SERVER['SERVER_PORT'];
-//        $this->requestUri = $_SERVER['REQUEST_URI'] ?? '';
-//        $this->path = $_SERVER['SCRIPT_FILENAME'] ?? '';
-//        $this->query = $_SERVER['QUERY_STRING'] ?? '';
     }
 
     /**

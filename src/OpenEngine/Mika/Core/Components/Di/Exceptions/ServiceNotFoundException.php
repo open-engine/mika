@@ -8,6 +8,6 @@ use Psr\Container\NotFoundExceptionInterface;
  * Class NotFoundException
  * @package OpenEngine\Mika\Core\Components\Di\Exceptions
  */
-class ServiceNotFoundException extends \Exception implements NotFoundExceptionInterface
+class ServiceNotFoundException extends \Exception implements NotFoundExceptionInterface, DiExceptionInterface
 {
 }

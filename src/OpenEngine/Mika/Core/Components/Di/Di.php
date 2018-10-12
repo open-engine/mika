@@ -3,14 +3,15 @@
 namespace OpenEngine\Mika\Core\Components\Di;
 
 use OpenEngine\Mika\Core\Components\Di\Exceptions\ClassNotFoundException;
+use OpenEngine\Mika\Core\Components\Di\Exceptions\MethodNotFoundException;
+use OpenEngine\Mika\Core\Components\Di\Exceptions\MissingMethodArgumentException;
 use OpenEngine\Mika\Core\Components\Di\Exceptions\ServiceNotFoundException;
 use OpenEngine\Mika\Core\Components\Di\Interfaces\DiConfigInterface;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
+use Psr\Container\ContainerInterface;
 use ReflectionClass;
 use ReflectionNamedType;
 
-class Di implements \Psr\Container\ContainerInterface
+class Di implements ContainerInterface
 {
     /**
      * Created services
@@ -32,12 +33,15 @@ class Di implements \Psr\Container\ContainerInterface
      */
     public function __construct(DiConfigInterface $diConfig)
     {
+        $diConfig->registerObject(ContainerInterface::class, $this);
         $this->services = $diConfig->getServices();
         $this->singletons = $diConfig->getServiceObjects();
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     * @throws MethodNotFoundException
+     * @throws MissingMethodArgumentException
      */
     public function get($id): object
     {
@@ -60,6 +64,26 @@ class Di implements \Psr\Container\ContainerInterface
     public function has($id): bool
     {
         return $this->getService($id) !== null;
+    }
+
+    /**
+     * @param string $className
+     * @return object
+     * @throws ClassNotFoundException
+     * @throws MethodNotFoundException
+     * @throws MissingMethodArgumentException
+     */
+    public function createObject(string $className): object
+    {
+        $params = $this->createMethodDepends($className, '__construct');
+
+        try {
+            $reflector = new ReflectionClass($className);
+        } catch (\ReflectionException $e) {
+            throw new ClassNotFoundException('Class ' . $className . ' is not found');
+        }
+
+        return $reflector->newInstanceArgs($params);
     }
 
     /**
@@ -88,6 +112,8 @@ class Di implements \Psr\Container\ContainerInterface
      * @param string $methodName
      * @param array $knownParams You can specify some parameter values if you already know what method needs
      * @return array
+     * @throws MethodNotFoundException
+     * @throws MissingMethodArgumentException
      */
     public function createMethodDepends(string $className, string $methodName, array $knownParams = []): array
     {
@@ -97,8 +123,40 @@ class Di implements \Psr\Container\ContainerInterface
          * @var ReflectionNamedType $type
          */
         foreach ($this->getMethodParams($className, $methodName) as $name => $type) {
-            $result[$name] = $knownParams[$name] ?? $this->get($type->getName());
+            if ($type !== null && !$this->isScalar($type->getName())) {
+                $result[$name] = $this->get($type->getName());
+                continue;
+            }
+
+            if (!isset($knownParams[$name])) {
+                throw new MissingMethodArgumentException('Missing argument ' . $name . ' for method ' . $methodName);
+            }
+
+            if ($type === null) {
+                $result[$name] = $knownParams[$name];
+                continue;
+            }
+
+            switch ($type->getName()) {
+                case 'int':
+                    $result[$name] = (int)$knownParams[$name];
+                    break;
+
+                case 'float':
+                    $result[$name] = (float)$knownParams[$name];
+                    break;
+
+                case 'bool':
+                    $result[$name] = (bool)$knownParams[$name];
+                    break;
+
+                case 'string':
+                default:
+                    $result[$name] = (string)$knownParams[$name];
+                    break;
+            }
         }
+
 
         return $result;
     }
@@ -131,26 +189,9 @@ class Di implements \Psr\Container\ContainerInterface
 
     /**
      * @param string $className
-     * @return object
-     * @throws ClassNotFoundException
-     */
-    private function createObject(string $className): object
-    {
-        $params = $this->createMethodDepends($className, '__construct');
-
-        try {
-            $reflector = new ReflectionClass($className);
-        } catch (\ReflectionException $e) {
-            throw new ClassNotFoundException('Class ' . $className . ' is not found');
-        }
-
-        return $reflector->newInstanceArgs($params);
-    }
-
-    /**
-     * @param string $className
      * @param string $methodName
      * @return array
+     * @throws MethodNotFoundException
      */
     private function getMethodParams(string $className, string $methodName): array
     {
@@ -159,7 +200,11 @@ class Di implements \Psr\Container\ContainerInterface
         try {
             $method = new \ReflectionMethod($className, $methodName);
         } catch (\ReflectionException $e) {
-            return $result;
+            if ($methodName === '__construct') {
+                return $result;
+            }
+
+            throw new MethodNotFoundException($e->getMessage());
         }
 
         foreach ($method->getParameters() as $parameter) {
@@ -167,5 +212,18 @@ class Di implements \Psr\Container\ContainerInterface
         }
 
         return $result;
+    }
+
+    private function isScalar(string $typeName): bool
+    {
+        switch ($typeName) {
+            case 'int':
+            case 'string':
+            case 'float':
+            case 'bool':
+                return true;
+            default:
+                return false;
+        }
     }
 }

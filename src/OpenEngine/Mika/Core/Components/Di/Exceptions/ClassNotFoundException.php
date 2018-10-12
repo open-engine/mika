@@ -4,6 +4,6 @@ namespace OpenEngine\Mika\Core\Components\Di\Exceptions;
 
 use Psr\Container\ContainerExceptionInterface;
 
-class ClassNotFoundException extends \Exception implements ContainerExceptionInterface
+class ClassNotFoundException extends \Exception implements ContainerExceptionInterface, DiExceptionInterface
 {
 }

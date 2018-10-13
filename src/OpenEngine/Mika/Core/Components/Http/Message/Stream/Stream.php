@@ -200,6 +200,7 @@ class Stream implements StreamInterface
      */
     public function isWritable(): bool
     {
+        /** @var string|null $mode */ 
         $mode = $this->getMetadata('mode');
 
         if ($mode === null) {
@@ -259,6 +260,7 @@ class Stream implements StreamInterface
      */
     public function isReadable(): bool
     {
+        /** @var string|null $mode */ 
         $mode = $this->getMetadata('mode');
 
         if ($mode === null) {

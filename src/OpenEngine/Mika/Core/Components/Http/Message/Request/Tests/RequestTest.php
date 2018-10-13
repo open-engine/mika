@@ -29,5 +29,4 @@ class RequestTest extends TestCase
         $request = new Request((new UriFactory)->createUri('http://localhost:8021/test/index.php?foo=bar'));
         self::assertStringEndsWith('/test/index.php?foo=bar', $request->getRequestTarget());
     }
-
 }

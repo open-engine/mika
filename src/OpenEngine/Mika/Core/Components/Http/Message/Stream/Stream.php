@@ -200,35 +200,32 @@ class Stream implements StreamInterface
      */
     public function isWritable(): bool
     {
-        /** @var string|null $mode */ 
+        /** @var string|null $mode */
         $mode = $this->getMetadata('mode');
 
         if ($mode === null) {
             return false;
         }
 
-        switch (strtolower($mode)) {
-            case 'r+':
-            case 'w':
-            case 'wb':
-            case 'w+':
-            case 'wb+':
-            case 'a':
-            case 'ab':
-            case 'a+':
-            case 'ab+':
-            case 'x':
-            case 'xb':
-            case 'x+':
-            case 'xb+':
-            case 'c':
-            case 'cb':
-            case 'c+':
-            case 'cb+':
-                return true;
-            default:
-                return false;
-        }
+        return \in_array($mode, [
+            'r+',
+            'w',
+            'wb',
+            'w+',
+            'wb+',
+            'a',
+            'ab',
+            'a+',
+            'ab+',
+            'x',
+            'xb',
+            'x+',
+            'xb+',
+            'c',
+            'cb',
+            'c+',
+            'cb+',
+        ]);
     }
 
     /**
@@ -260,27 +257,24 @@ class Stream implements StreamInterface
      */
     public function isReadable(): bool
     {
-        /** @var string|null $mode */ 
+        /** @var string|null $mode */
         $mode = $this->getMetadata('mode');
 
         if ($mode === null) {
             return false;
         }
 
-        switch (strtolower($mode)) {
-            case 'r':
-            case 'r+':
-            case 'rb+':
-            case 'a+':
-            case 'ab+':
-            case 'x+':
-            case 'xb+':
-            case 'c+':
-            case 'cb+':
-                return true;
-            default:
-                return false;
-        }
+        return \in_array($mode, [
+            'r',
+            'r+',
+            'rb+',
+            'a+',
+            'ab+',
+            'x+',
+            'xb+',
+            'c+',
+            'cb+',
+        ]);
     }
 
     /**

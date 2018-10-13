@@ -450,9 +450,41 @@ class Uri implements UriInterface
      */
     public function __toString()
     {
-        $scheme = empty($this->getScheme()) ? '' : $this->getScheme() . ':';
-        $authority = empty($this->getAuthority()) ? '' : '//' . $this->getAuthority();
+        return
+            $this->getSchemeWithColon() .
+            $this->getAuthorityWithDoubleSlash() .
+            $this->getPathWithSlash() .
+            $this->getQueryWithMark() .
+            $this->getFragmentWithSharp();
+    }
 
+    /**
+     * Returns empty string if scheme is not set or ":scheme"
+     *
+     * @return string
+     */
+    private function getSchemeWithColon(): string
+    {
+        return empty($this->getScheme()) ? '' : $this->getScheme() . ':';
+    }
+
+    /**
+     * Returns empty string if authority is not set or "//authority"
+     *
+     * @return string
+     */
+    private function getAuthorityWithDoubleSlash(): string
+    {
+        return empty($this->getAuthority()) ? '' : '//' . $this->getAuthority();
+    }
+
+    /**
+     * Returns empty string if path is not set or "/path"
+     *
+     * @return string
+     */
+    private function getPathWithSlash(): string
+    {
         $path = '';
 
         if (!empty($this->getPath())) {
@@ -460,10 +492,27 @@ class Uri implements UriInterface
             $path .= $this->getPath();
         }
 
-        $query = empty($this->getQuery()) ? '' : '?' . $this->getQuery();
-        $fragment = empty($this->getFragment()) ? '' : '#' . $this->getFragment();
+        return $path;
+    }
 
-        return $scheme . $authority . $path . $query . $fragment;
+    /**
+     * Returns empty string if query is not set or "?query"
+     *
+     * @return string
+     */
+    private function getQueryWithMark(): string
+    {
+        return empty($this->getQuery()) ? '' : '?' . $this->getQuery();
+    }
+
+    /**
+     * Returns empty string if fragment is not set or "#fragment"
+     *
+     * @return string
+     */
+    private function getFragmentWithSharp(): string
+    {
+        return empty($this->getFragment()) ? '' : '#' . $this->getFragment();
     }
 
     /**

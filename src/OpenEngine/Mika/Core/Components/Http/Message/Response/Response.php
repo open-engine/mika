@@ -41,7 +41,7 @@ class Response implements ResponseInterface
     ) {
         $this->body = (new StreamFactory())->createStream($body);
         $this->code = $code;
-        $this->headers = $headers;
+        $this->setHeaders($headers);
         $this->protocolVersion = $version;
         $this->reasonPhrase = $reasonPhrase;
     }

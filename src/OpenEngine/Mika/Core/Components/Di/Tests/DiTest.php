@@ -2,7 +2,6 @@
 
 namespace OpenEngine\Mika\Core\Components\Di\Tests;
 
-use OpenEngine\Mika\Core\App;
 use OpenEngine\Mika\Core\Components\Di\Di;
 use OpenEngine\Mika\Core\Components\Di\DiConfig;
 use OpenEngine\Mika\Core\Components\Di\Exceptions\ClassNotFoundException;
@@ -18,7 +17,6 @@ use PHPUnit\Framework\TestCase;
 
 class DiTest extends TestCase
 {
-
     public function testHasMethod(): void
     {
         $this->assertFalse($this->getDi()->has('unknownClass'));

@@ -36,9 +36,9 @@ class BarController
     public function frameworkNameAction(RequestInterface $request, string $name, $type, int $age): Response
     {
         return new Response(
-            'method: ' . $request->getMethod() . '; '.
-            'name: ' . $name . '; '.
-            'type: ' . $type . '; '.
+            'method: ' . $request->getMethod() . '; ' .
+            'name: ' . $name . '; ' .
+            'type: ' . $type . '; ' .
             'age: ' . $age
         );
     }

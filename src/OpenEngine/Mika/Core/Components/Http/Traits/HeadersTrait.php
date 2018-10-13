@@ -7,7 +7,7 @@ trait HeadersTrait
     /**
      * @var array
      */
-    private $headers;
+    private $headers = [];
 
     /**
      * Retrieves all message header values.
@@ -193,5 +193,17 @@ trait HeadersTrait
         }
 
         return $new;
+    }
+
+    /**
+     * Header names to uppercase then save headers
+     *
+     * @param array $headers
+     */
+    private function setHeaders(array $headers): void
+    {
+        foreach ($headers as $name => $values) {
+            $this->headers[strtolower($name)] = $values;
+        }
     }
 }

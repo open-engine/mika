@@ -206,7 +206,7 @@ class Stream implements StreamInterface
             return false;
         }
 
-        switch (strtolower($mode)) {
+        switch (strtolower(/** @scrutinizer ignore-type */ $mode)) {
             case 'r+':
             case 'w':
             case 'wb':

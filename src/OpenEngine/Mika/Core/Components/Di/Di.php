@@ -137,28 +137,38 @@ class Di implements ContainerInterface
                 continue;
             }
 
-            switch ($type->getName()) {
-                case 'int':
-                    $result[$name] = (int)$knownParams[$name];
-                    break;
-
-                case 'float':
-                    $result[$name] = (float)$knownParams[$name];
-                    break;
-
-                case 'bool':
-                    $result[$name] = (bool)$knownParams[$name];
-                    break;
-
-                case 'string':
-                default:
-                    $result[$name] = (string)$knownParams[$name];
-                    break;
-            }
+            $this->addCastedVar($result, $name, $type->getName(), $knownParams[$name]);
         }
 
-
         return $result;
+    }
+
+    /**
+     * @param array $methodDepends
+     * @param string $paramName
+     * @param string $type
+     * @param mixed $var
+     */
+    private function addCastedVar(array &$methodDepends, string $paramName, string $type, $var): void
+    {
+        switch ($type) {
+            case 'int':
+                $methodDepends[$paramName] = (int)$var;
+                break;
+
+            case 'float':
+                $methodDepends[$paramName] = (float)$var;
+                break;
+
+            case 'bool':
+                $methodDepends[$paramName] = (bool)$var;
+                break;
+
+            case 'string':
+            default:
+                $methodDepends[$paramName] = (string)$var;
+                break;
+        }
     }
 
     /**

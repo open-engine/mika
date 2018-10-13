@@ -200,13 +200,14 @@ class Stream implements StreamInterface
      */
     public function isWritable(): bool
     {
+        /** @var string $mode */ 
         $mode = $this->getMetadata('mode');
 
         if ($mode === null) {
             return false;
         }
 
-        switch (strtolower(/** @scrutinizer ignore-type */ $mode)) {
+        switch (strtolower($mode)) {
             case 'r+':
             case 'w':
             case 'wb':

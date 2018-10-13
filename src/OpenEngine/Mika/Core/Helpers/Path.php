@@ -12,6 +12,7 @@ class Path
      * @var string[]
      */
     public static $pathNames;
+
     /**
      * @var string
      */
@@ -25,7 +26,11 @@ class Path
      */
     public static function getRoot(): string
     {
-        return static::$root;
+        if (self::$root === null) {
+            throw  new \RuntimeException('Root path is not defined');
+        }
+
+        return self::$root;
     }
 
     /**
@@ -35,7 +40,7 @@ class Path
      */
     public static function setRoot(string $root): void
     {
-        static::$root = $root;
+        self::$root = $root;
     }
 
     /**
@@ -45,7 +50,7 @@ class Path
      */
     public static function getWeb(): string
     {
-        return static::get('web');
+        return self::get('web');
     }
 
     /**
@@ -55,7 +60,7 @@ class Path
      */
     public static function getSrc(): string
     {
-        return static::get('src');
+        return self::get('src');
     }
 
     /**
@@ -69,7 +74,7 @@ class Path
      */
     public static function src(string $path): string
     {
-        return static::getSrc() . '/' . $path;
+        return self::getSrc() . '/' . $path;
     }
 
     /**
@@ -84,7 +89,7 @@ class Path
      */
     public static function get(string $path): string
     {
-        return static::getRoot() . '/' . $path;
+        return self::getRoot() . '/' . $path;
     }
 
     /**
@@ -95,8 +100,8 @@ class Path
      */
     public static function getName(string $name): ?string
     {
-        if (isset(static::$pathNames[$name])) {
-            return static::get(static::$pathNames[$name]);
+        if (isset(self::$pathNames[$name])) {
+            return self::get(self::$pathNames[$name]);
         }
 
         return null;
@@ -110,7 +115,7 @@ class Path
      */
     public static function addName(string $name, string $path): void
     {
-        static::$pathNames[$name] = $path;
+        self::$pathNames[$name] = $path;
     }
 
     /**
@@ -119,6 +124,6 @@ class Path
      */
     public static function getPathByNamespace(string $namespace): string
     {
-        return static::src(\str_replace('\\', '/', $namespace));
+        return self::src(\str_replace('\\', '/', $namespace));
     }
 }

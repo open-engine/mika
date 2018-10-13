@@ -451,68 +451,41 @@ class Uri implements UriInterface
     public function __toString()
     {
         return
-            $this->getSchemeWithColon() .
-            $this->getAuthorityWithDoubleSlash() .
-            $this->getPathWithSlash() .
-            $this->getQueryWithMark() .
-            $this->getFragmentWithSharp();
+            $this->getBasePart() .
+            $this->getTailPart();
     }
 
     /**
-     * Returns empty string if scheme is not set or ":scheme"
+     * Return an empty string or [scheme://][user:password@]host[:port]
      *
      * @return string
      */
-    private function getSchemeWithColon(): string
+    private function getBasePart(): string
     {
-        return empty($this->getScheme()) ? '' : $this->getScheme() . ':';
+        $scheme = empty($this->getScheme()) ? '' : $this->getScheme() . ':';
+        $authority = empty($this->getAuthority()) ? '' : '//' . $this->getAuthority();
+
+        return $scheme . $authority;
     }
 
     /**
-     * Returns empty string if authority is not set or "//authority"
+     * Return an empty string or /[path][?query][#fragment]
      *
      * @return string
      */
-    private function getAuthorityWithDoubleSlash(): string
+    private function getTailPart(): string
     {
-        return empty($this->getAuthority()) ? '' : '//' . $this->getAuthority();
-    }
-
-    /**
-     * Returns empty string if path is not set or "/path"
-     *
-     * @return string
-     */
-    private function getPathWithSlash(): string
-    {
-        $path = '';
+        $path = '/';
 
         if (!empty($this->getPath())) {
-            $path .= strpos($this->getPath(), '/') === 0 ? '' : '/';
+            $path = strpos($this->getPath(), '/') === 0 ? '' : '/';
             $path .= $this->getPath();
         }
 
-        return $path;
-    }
+        $query = empty($this->getQuery()) ? '' : '?' . $this->getQuery();
+        $fragment = empty($this->getFragment()) ? '' : '#' . $this->getFragment();
 
-    /**
-     * Returns empty string if query is not set or "?query"
-     *
-     * @return string
-     */
-    private function getQueryWithMark(): string
-    {
-        return empty($this->getQuery()) ? '' : '?' . $this->getQuery();
-    }
-
-    /**
-     * Returns empty string if fragment is not set or "#fragment"
-     *
-     * @return string
-     */
-    private function getFragmentWithSharp(): string
-    {
-        return empty($this->getFragment()) ? '' : '#' . $this->getFragment();
+        return $path . $query . $fragment;
     }
 
     /**

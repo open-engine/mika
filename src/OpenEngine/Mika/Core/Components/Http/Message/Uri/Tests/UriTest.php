@@ -20,7 +20,7 @@ class UriTest extends TestCase
         $uri = new Uri(self::URI);
         $new = $uri
             ->withScheme('hTtPS')
-            ->withUserInfo('AAAjohn', 'doe')
+            ->withUserInfo('john', 'doe')
             ->withHost('localhost')
             ->withPort(443)
             ->withPath('main/index.php')

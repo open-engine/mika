@@ -214,16 +214,12 @@ class Di implements ContainerInterface
         return $result;
     }
 
+    /**
+     * @param string $typeName
+     * @return bool
+     */
     private function isScalar(string $typeName): bool
     {
-        switch ($typeName) {
-            case 'int':
-            case 'string':
-            case 'float':
-            case 'bool':
-                return true;
-            default:
-                return false;
-        }
+        return \in_array($typeName, ['int', 'string', 'float', 'bool']);
     }
 }

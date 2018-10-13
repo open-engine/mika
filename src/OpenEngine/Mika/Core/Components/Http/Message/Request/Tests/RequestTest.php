@@ -13,7 +13,7 @@ class RequestTest extends TestCase
     {
         $request = (new RequestFactory())->createRequest('get', (new UriFactory)->createUri('http://localhost:8021'));
         self::assertStringEndsWith('GET', $request->getMethod());
-        self::assertArrayHasKey('host', $request->getHeaders());
+        self::assertArrayHasKey('host2', $request->getHeaders());
         self::assertStringEndsWith('localhost', $request->getHeaderLine('host'));
     }
 

@@ -1,0 +1,21 @@
+language: php
+
+php:
+- 7.2
+
+install:
+- travis_retry composer self-update
+- travis_retry composer install --no-interaction --no-suggest
+
+after_success:
+# Submit coverage report to https://codecov.io
+- bash <(curl -s https://codecov.io/bash)
+
+# Monitor only these branches
+branches:
+  only:
+  - master
+  - dev
+
+script:
+- ./bin/test

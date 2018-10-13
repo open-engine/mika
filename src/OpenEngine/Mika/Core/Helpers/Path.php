@@ -14,7 +14,7 @@ class Path
     public static $pathNames;
 
     /**
-     * @var string
+     * @var string|null
      */
     private static $root;
 

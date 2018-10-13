@@ -184,6 +184,7 @@ class ServerRequest extends Request implements ServerRequestInterface
     public function getUploadedFiles(): array
     {
         // TODO: Implement getUploadedFiles() method.
+        return [];
     }
 
     /**
@@ -226,6 +227,7 @@ class ServerRequest extends Request implements ServerRequestInterface
         }
 
         // todo get from post and body
+        return null;
     }
 
     /**

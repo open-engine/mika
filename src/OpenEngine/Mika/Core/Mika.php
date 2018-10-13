@@ -33,7 +33,7 @@ class Mika
 
         $response = $route->callControllerAction();
 
-        foreach($response->getHeaders() as $name => $header) {
+        foreach ($response->getHeaders() as $name => $header) {
             header($name . ': ' . $response->getHeaderLine($name));
         }
 

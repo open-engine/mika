@@ -45,9 +45,9 @@ class Request implements RequestInterface
         string $method = 'GET',
         string $version = '1.1'
     ) {
-        $this->method = $method;
+        $this->method = strtoupper($method);
         $this->uri = $uri;
-        $this->headers = $headers;
+        $this->setHeaders($headers);
         $this->body = $body;
         $this->protocolVersion = $version;
 

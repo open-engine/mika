@@ -206,13 +206,15 @@ class Stream implements StreamInterface
             return false;
         }
 
-        switch ($mode) {
+        switch (strtolower($mode)) {
             case 'r+':
             case 'w':
             case 'wb':
             case 'w+':
             case 'wb+':
+            case 'a':
             case 'ab':
+            case 'a+':
             case 'ab+':
             case 'x':
             case 'xb':
@@ -263,7 +265,7 @@ class Stream implements StreamInterface
             return false;
         }
 
-        switch ($mode) {
+        switch (strtolower($mode)) {
             case 'r':
             case 'r+':
             case 'rb+':
@@ -296,6 +298,7 @@ class Stream implements StreamInterface
         }
 
         $result = \fread($this->stream, $length);
+
         return (string)$result;
     }
 

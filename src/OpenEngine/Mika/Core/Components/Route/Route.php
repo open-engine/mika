@@ -178,14 +178,20 @@ class Route implements RouteInterface
     {
         $parts = explode('/', $this->request->getUri()->getPath());
 
-        $this->main = !empty($parts[1]) && $parts[1] !== '/' ? $parts[1] :  self::DEFAULT_ROUTE;
-        $this->secondary = !empty($parts[2]) && $parts[2] !== '/' ? $parts[2] :  self::DEFAULT_ROUTE;
-        $this->action = !empty($parts[3]) && $parts[3] !== '/' ? $parts[3] :  self::DEFAULT_ROUTE;
+        $this->main = $this->getPart($parts, 1);
+        $this->secondary = $this->getPart($parts, 2);
+        $this->action = $this->getPart($parts, 3);
 
         $this->current =
             '/' . $this->main .
             '/' . $this->secondary .
             '/' . $this->action;
+    }
+
+    private function getPart(array $parts, $key): string
+    {
+        return !empty($parts[$key]) && $parts[$key] !== '/' ? $parts[$key] :  self::DEFAULT_ROUTE;
+
     }
 
     /**

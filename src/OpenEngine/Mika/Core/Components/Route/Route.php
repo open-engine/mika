@@ -63,8 +63,7 @@ class Route implements RouteInterface
     /**
      * @inheritdoc
      */
-    public function __construct
-    (
+    public function __construct(
         RouteConfigInterface $routeConfig,
         RequestInterface $request,
         ContainerInterface $container
@@ -190,7 +189,7 @@ class Route implements RouteInterface
 
     private function getPart(array $parts, $key): string
     {
-        return !empty($parts[$key]) && $parts[$key] !== '/' ? $parts[$key] :  self::DEFAULT_ROUTE;
+        return !empty($parts[$key]) && $parts[$key] !== '/' ? $parts[$key] : self::DEFAULT_ROUTE;
 
     }
 

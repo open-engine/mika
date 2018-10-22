@@ -17,15 +17,23 @@ class UriFactory implements UriFactoryInterface
     public function createUri(string $uri = ''): UriInterface
     {
         if (empty($uri)) {
-            if (!isset($_SERVER['REQUEST_SCHEME'], $_SERVER['HTTP_HOST'], $_SERVER['REQUEST_URI'])) {
+            if (!isset($_SERVER['SERVER_NAME'], $_SERVER['REQUEST_URI'])) {
                 throw new \RuntimeException('Can not create Uri');
             }
 
-            $uri .= $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '';
+            $uri .= $this->getScheme() . '://' . $_SERVER['SERVER_NAME'] . '';
             $uri .= empty($_SERVER['SERVER_PORT']) ? '' : ':' . $_SERVER['SERVER_PORT'];
             $uri .= $_SERVER['REQUEST_URI'] ?? '';
         }
 
         return new Uri($uri);
+    }
+
+    /**
+     * @return string
+     */
+    private function getScheme(): string
+    {
+        return $_SERVER['REQUEST_SCHEME'] ?? 'http';
     }
 }

@@ -92,7 +92,7 @@ class RouteTest extends TestCase
     private function setUpGlobals(): void
     {
         $_SERVER['REQUEST_SCHEME'] = 'http';
-        $_SERVER['HTTP_HOST'] = 'kadirov.org';
+        $_SERVER['SERVER_NAME'] = 'kadirov.org';
     }
 
     private function getDiConfig(): DiConfig

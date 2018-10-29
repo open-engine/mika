@@ -19,3 +19,48 @@ To start tests run
 ```
 bin/tests
 ```
+
+## Route
+```php
+$routeConfig = new RouteConfig();
+$routeConfig->register('default','App\Main\Controllers');
+```
+
+### Controller
+
+```php
+namespace App\Main\Controllers;
+
+use App\Main\Models\Foo;
+use Doctrine\ORM\EntityManagerInterface;
+use OpenEngine\Mika\Core\Components\Http\Message\Response\Response;
+
+/**
+ * Class DefaultController
+ * @package App\Main\Controllers
+ */
+class DefaultController
+{
+    /**
+     * @return Response
+     */
+    public function defaultAction(): Response
+    {
+        return new Response('Hello World!');
+    }
+    /**
+     * @param EntityManagerInterface $em
+     * @param int $id
+     * @return Response
+     */
+    public function fooAction(EntityManagerInterface $em, int $id): Response
+    {
+        $em->getRepository(Foo::class)->find($id);
+        
+        // ... code....
+
+        return new Response('Dcotrine Test');
+    }
+}
+```
+

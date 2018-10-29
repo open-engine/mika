@@ -10,3 +10,12 @@ Mika PHP Framework
 
 # Templates
 https://github.com/open-engine/mika-project-template
+
+
+# Misc
+
+To start tests run
+
+```
+bin/tests
+```

@@ -2,7 +2,7 @@
 
 namespace OpenEngine\Mika\Core\Components\Route\Tests\Dummy\Foo\Controllers;
 
-use OpenEngine\Mika\Core\Components\Http\Message\Response\Response;
+use OpenEngine\Http\Message\Response\Response;
 
 class DefaultController
 {

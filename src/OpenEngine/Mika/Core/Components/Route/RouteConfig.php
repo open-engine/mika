@@ -3,7 +3,7 @@
 namespace OpenEngine\Mika\Core\Components\Route;
 
 use OpenEngine\Mika\Core\Components\Route\Interfaces\RouteConfigInterface;
-use OpenEngine\Mika\Core\Helpers\Path;
+use OpenEngine\Helpers\Path;
 
 /**
  * Class RouteConfig

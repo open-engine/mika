@@ -2,16 +2,16 @@
 
 namespace OpenEngine\Mika\Core\Components\Route\Tests;
 
-use OpenEngine\Mika\Core\Components\Di\DiConfig;
-use OpenEngine\Mika\Core\Components\Di\Exceptions\MethodNotFoundException;
-use OpenEngine\Mika\Core\Components\Di\Exceptions\MissingMethodArgumentException;
-use OpenEngine\Mika\Core\Components\Http\Exceptions\NotFoundHttpException;
-use OpenEngine\Mika\Core\Components\Http\Message\Stream\StreamFactory;
+use OpenEngine\Di\DiConfig;
+use OpenEngine\Di\Exceptions\MethodNotFoundException;
+use OpenEngine\Di\Exceptions\MissingMethodArgumentException;
+use OpenEngine\Http\Exceptions\NotFoundHttpException;
+use OpenEngine\Http\Message\Stream\StreamFactory;
 use OpenEngine\Mika\Core\Components\Route\Interfaces\RouteConfigInterface;
 use OpenEngine\Mika\Core\Components\Route\Interfaces\RouteInterface;
 use OpenEngine\Mika\Core\Components\Route\Route;
 use OpenEngine\Mika\Core\Components\Route\RouteConfig;
-use OpenEngine\Mika\Core\Helpers\Path;
+use OpenEngine\Helpers\Path;
 use OpenEngine\Mika\Core\Mika;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\StreamFactoryInterface;
@@ -84,7 +84,7 @@ class RouteTest extends TestCase
 
     protected function setUp()
     {
-        Path::setRoot(getenv('MIKA_ROOT_DIR'));
+        Path::setRoot(getenv('OE_ROOT_DIR'));
 
         $this->setUpGlobals();
     }

@@ -2,14 +2,14 @@
 
 namespace OpenEngine\Mika\Core\Components\Route;
 
-use OpenEngine\Mika\Core\Components\Di\Di;
-use OpenEngine\Mika\Core\Components\Di\Exceptions\ClassNotFoundException;
-use OpenEngine\Mika\Core\Components\Di\Exceptions\MethodNotFoundException;
-use OpenEngine\Mika\Core\Components\Di\Exceptions\MissingMethodArgumentException;
-use OpenEngine\Mika\Core\Components\Http\Exceptions\NotFoundHttpException;
+use OpenEngine\Di\Di;
+use OpenEngine\Http\Exceptions\ClassNotFoundException;
+use OpenEngine\Http\Exceptions\MethodNotFoundException;
+use OpenEngine\Http\Exceptions\MissingMethodArgumentException;
+use OpenEngine\Http\Exceptions\NotFoundHttpException;
 use OpenEngine\Mika\Core\Components\Route\Interfaces\RouteConfigInterface;
 use OpenEngine\Mika\Core\Components\Route\Interfaces\RouteInterface;
-use OpenEngine\Mika\Core\Helpers\Path;
+use OpenEngine\Helpers\Path;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;

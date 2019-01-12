@@ -2,7 +2,7 @@
 
 namespace OpenEngine\Mika\Core\Components\Route\Tests\Dummy\Bar\Controllers;
 
-use OpenEngine\Mika\Core\Components\Http\Message\Response\Response;
+use OpenEngine\Http\Message\Response\Response;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 

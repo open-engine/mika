@@ -4,9 +4,10 @@
     "license": "GPL-3.0-or-later",
     "type": "library",
     "keywords": [
+        "mika",
         "framework",
-        "php",
-        "mika"
+        "backend",
+        "php"
     ],
     "authors": [
         {
@@ -26,13 +27,13 @@
     },
     "require": {
         "php": "~7.2",
-        "psr/container": "^1.0",
-        "psr/http-message": "^1.0",
         "ext-mbstring": "^7.2",
-        "psr/http-factory": "^1.0",
-        "doctrine/orm": "^2.6"
+        "open-engine/di": "~0.1.0",
+        "open-engine/http": "~0.1.0",
+        "open-engine/helpers-path": "~0.1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.4"
+        "doctrine/orm": "^2.6",
+        "open-engine/run-tests": "~0.1.1"
     }
 }

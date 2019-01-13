@@ -10,4 +10,9 @@ class DefaultController
     {
         return new Response('I am default method of the DefaultController');
     }
+
+    public function checkEventAction(): Response
+    {
+        return new Response('Text that can not be reached');
+    }
 }

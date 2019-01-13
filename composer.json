@@ -29,6 +29,7 @@
         "php": "~7.2",
         "ext-mbstring": "^7.2",
         "open-engine/di": "~0.1.0",
+        "open-engine/event-dispatcher": "~0.1.0",
         "open-engine/http": "~0.1.0",
         "open-engine/helpers-path": "~0.1.0"
     },

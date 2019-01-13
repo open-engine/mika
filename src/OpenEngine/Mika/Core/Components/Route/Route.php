@@ -3,9 +3,9 @@
 namespace OpenEngine\Mika\Core\Components\Route;
 
 use OpenEngine\Di\Di;
-use OpenEngine\Http\Exceptions\ClassNotFoundException;
-use OpenEngine\Http\Exceptions\MethodNotFoundException;
-use OpenEngine\Http\Exceptions\MissingMethodArgumentException;
+use OpenEngine\Di\Exceptions\ClassNotFoundException;
+use OpenEngine\Di\Exceptions\MethodNotFoundException;
+use OpenEngine\Di\Exceptions\MissingMethodArgumentException;
 use OpenEngine\Http\Exceptions\NotFoundHttpException;
 use OpenEngine\Mika\Core\Components\Route\Interfaces\RouteConfigInterface;
 use OpenEngine\Mika\Core\Components\Route\Interfaces\RouteInterface;
@@ -130,10 +130,10 @@ class Route implements RouteInterface
 
     /**
      * @return object
-     * @throws ClassNotFoundException
      * @throws MethodNotFoundException
      * @throws MissingMethodArgumentException
      * @throws NotFoundHttpException
+     * @throws ClassNotFoundException
      */
     public function getController(): object
     {

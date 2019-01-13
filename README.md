@@ -8,11 +8,11 @@
 # Mika
 Mika PHP Framework
 
-# Templates
+## Templates
 https://github.com/open-engine/mika-project-template
 
 
-# Misc
+## Misc
 
 To start tests run
 
@@ -59,8 +59,19 @@ class DefaultController
         
         // ... code....
 
-        return new Response('Dcotrine Test');
+        return new Response('Doctrine Test');
     }
 }
 ```
+
+### Events
+
+Route has 2 events - before and after calling controller action 
+
+```php
+BeforeCallActionEvent::class;
+AfterCallActionEvent::class;
+```
+
+There is you can find all Events. Link (todo)
 

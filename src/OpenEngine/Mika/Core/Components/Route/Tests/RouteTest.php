@@ -5,15 +5,23 @@ namespace OpenEngine\Mika\Core\Components\Route\Tests;
 use OpenEngine\Di\DiConfig;
 use OpenEngine\Di\Exceptions\MethodNotFoundException;
 use OpenEngine\Di\Exceptions\MissingMethodArgumentException;
+use OpenEngine\EventDispatcher\EventDispatcher;
+use OpenEngine\EventDispatcher\Interfaces\ListenerProviderConfigInterface;
+use OpenEngine\EventDispatcher\ListenerProvider;
+use OpenEngine\EventDispatcher\ListenerProviderConfig;
+use OpenEngine\Helpers\Path;
 use OpenEngine\Http\Exceptions\NotFoundHttpException;
 use OpenEngine\Http\Message\Stream\StreamFactory;
+use OpenEngine\Mika\Core\Components\Route\Events\AfterCallActionEvent;
 use OpenEngine\Mika\Core\Components\Route\Interfaces\RouteConfigInterface;
 use OpenEngine\Mika\Core\Components\Route\Interfaces\RouteInterface;
 use OpenEngine\Mika\Core\Components\Route\Route;
 use OpenEngine\Mika\Core\Components\Route\RouteConfig;
-use OpenEngine\Helpers\Path;
+use OpenEngine\Mika\Core\Components\Route\Tests\Dummy\RouteEventListener;
 use OpenEngine\Mika\Core\Mika;
 use PHPUnit\Framework\TestCase;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Psr\EventDispatcher\ListenerProviderInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 
 class RouteTest extends TestCase
@@ -82,6 +90,14 @@ class RouteTest extends TestCase
         Mika::run($this->getDiConfig());
     }
 
+    public function testAfterCallActionEvent(): void
+    {
+        $_SERVER['REQUEST_URI'] = '/foo/default/checkEvent';
+
+        Mika::run($this->getDiConfig());
+        $this->expectOutputString('body has changed by listener');
+    }
+
     protected function setUp()
     {
         Path::setRoot(getenv('OE_ROOT_DIR'));
@@ -112,6 +128,13 @@ class RouteTest extends TestCase
         $diConfig->register(StreamFactoryInterface::class, StreamFactory::class);
         $diConfig->register(RouteInterface::class, Route::class);
         $diConfig->registerObject(RouteConfigInterface::class, $routeConfig);
+
+        $listenerProviderConfig = new ListenerProviderConfig();
+        $listenerProviderConfig->addListener(AfterCallActionEvent::class, RouteEventListener::class . '::changeBody');
+
+        $diConfig->registerObject(ListenerProviderConfigInterface::class, $listenerProviderConfig);
+        $diConfig->register(EventDispatcherInterface::class, EventDispatcher::class);
+        $diConfig->register(ListenerProviderInterface::class, ListenerProvider::class);
 
         return $diConfig;
     }

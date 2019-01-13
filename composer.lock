@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6675eff1da0235b406d19b9c392a2311",
+    "content-hash": "a6806f9f3d1df24584940cb80e737a43",
     "packages": [
         {
             "name": "open-engine/di",
@@ -56,6 +56,56 @@
                 "php"
             ],
             "time": "2019-01-12T19:29:06+00:00"
+        },
+        {
+            "name": "open-engine/event-dispatcher",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/open-engine/event-dispatcher.git",
+                "reference": "0699e49bb844123f3f8ca666f441b78e56c53143"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/open-engine/event-dispatcher/zipball/0699e49bb844123f3f8ca666f441b78e56c53143",
+                "reference": "0699e49bb844123f3f8ca666f441b78e56c53143",
+                "shasum": ""
+            },
+            "require": {
+                "php": "~7.2",
+                "psr/event-dispatcher": "~0.7.0"
+            },
+            "require-dev": {
+                "open-engine/run-tests": "~0.1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "": "src/"
+                },
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Akmal Kadirov",
+                    "email": "akmal@kadirov.org",
+                    "homepage": "http://kadirov.org/",
+                    "role": "Founder and project lead"
+                }
+            ],
+            "description": "Event Dispatcher",
+            "keywords": [
+                "event",
+                "event-dispatcher",
+                "php"
+            ],
+            "time": "2019-01-12T22:22:15+00:00"
         },
         {
             "name": "open-engine/helpers-path",
@@ -209,6 +259,52 @@
                 "psr"
             ],
             "time": "2017-02-14T16:28:37+00:00"
+        },
+        {
+            "name": "psr/event-dispatcher",
+            "version": "0.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/event-dispatcher.git",
+                "reference": "8380006c4192e22528ce40c3a56b81590707128a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/event-dispatcher/zipball/8380006c4192e22528ce40c3a56b81590707128a",
+                "reference": "8380006c4192e22528ce40c3a56b81590707128a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\EventDispatcher\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Standard interfaces for event handling.",
+            "keywords": [
+                "events",
+                "psr",
+                "psr-14"
+            ],
+            "time": "2018-12-26T17:32:27+00:00"
         },
         {
             "name": "psr/http-factory",

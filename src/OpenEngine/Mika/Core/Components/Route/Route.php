@@ -6,11 +6,14 @@ use OpenEngine\Di\Di;
 use OpenEngine\Di\Exceptions\ClassNotFoundException;
 use OpenEngine\Di\Exceptions\MethodNotFoundException;
 use OpenEngine\Di\Exceptions\MissingMethodArgumentException;
+use OpenEngine\Helpers\Path;
 use OpenEngine\Http\Exceptions\NotFoundHttpException;
+use OpenEngine\Mika\Core\Components\Route\Events\AfterCallActionEvent;
+use OpenEngine\Mika\Core\Components\Route\Events\BeforeCallActionEvent;
 use OpenEngine\Mika\Core\Components\Route\Interfaces\RouteConfigInterface;
 use OpenEngine\Mika\Core\Components\Route\Interfaces\RouteInterface;
-use OpenEngine\Helpers\Path;
 use Psr\Container\ContainerInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -61,18 +64,25 @@ class Route implements RouteInterface
     private $container;
 
     /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
+
+    /**
      * @inheritdoc
      */
     public function __construct(
         RouteConfigInterface $routeConfig,
         RequestInterface $request,
-        ContainerInterface $container
+        ContainerInterface $container,
+        EventDispatcherInterface $eventDispatcher
     ) {
         $this->routes = $routeConfig->getRoutes();
         $this->request = $request;
 
         $this->parseUri();
         $this->container = $container;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -135,7 +145,7 @@ class Route implements RouteInterface
      * @throws NotFoundHttpException
      * @throws ClassNotFoundException
      */
-    public function getController(): object
+    private function getController(): object
     {
         foreach ($this->getRoute($this->getMain()) as $className) {
             $controller = basename(Path::getPathByNamespace($className), 'Controller');
@@ -190,21 +200,34 @@ class Route implements RouteInterface
     private function getPart(array $parts, $key): string
     {
         return !empty($parts[$key]) && $parts[$key] !== '/' ? $parts[$key] : self::DEFAULT_ROUTE;
-
     }
 
     /**
+     * This method triggers {@see BeforeCallActionEvent} and {@see AfterCallActionEvent} events
+     *
      * @param object $controller
      * @return ResponseInterface
      * @throws MethodNotFoundException
      * @throws MissingMethodArgumentException
+     * @see BeforeCallActionEvent
+     * @see AfterCallActionEvent
      */
     private function callAction(object $controller): ResponseInterface
     {
         $methodName = $this->getAction() . 'Action';
         // todo user Request method instead of $_GET
 
-        $depends = $this->container->createMethodDepends(\get_class($controller), $methodName, $_GET);
-        return \call_user_func_array([$controller, $methodName], $depends);
+        $controllerName = \get_class($controller);
+
+        $depends = $this->container->createMethodDepends($controllerName, $methodName, $_GET);
+
+        $this->eventDispatcher->dispatch(new BeforeCallActionEvent($controllerName, $methodName, $depends));
+
+        $response = \call_user_func_array([$controller, $methodName], $depends);
+
+        $event = new AfterCallActionEvent($controllerName, $methodName, $depends, $response);
+        $event = $this->eventDispatcher->dispatch($event);
+
+        return $event->getResponse();
     }
 }

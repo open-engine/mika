@@ -2,6 +2,7 @@
 
 namespace OpenEngine\Mika\Core\Components\Route;
 
+use OpenEngine\Mika\Core\Components\Route\Interfaces\RestfulRouteInterface;
 use OpenEngine\Mika\Core\Components\Route\Interfaces\RouteConfigInterface;
 use OpenEngine\Helpers\Path;
 
@@ -17,6 +18,11 @@ class RouteConfig implements RouteConfigInterface
     private $routes = [];
 
     /**
+     * @var RestfulRouteInterface[]
+     */
+    private $restfulRoutes = [];
+
+    /**
      * @inheritdoc
      */
     public function getRoutes(): array
@@ -29,7 +35,7 @@ class RouteConfig implements RouteConfigInterface
      */
     public function register(string $route, string $controllersNamespace): void
     {
-        $controllerFiles = glob(Path::getPathByNamespace($controllersNamespace . '/*'));
+        $controllerFiles = \glob(Path::getPathByNamespace($controllersNamespace . '/*'));
 
         $result = [];
 
@@ -42,5 +48,21 @@ class RouteConfig implements RouteConfigInterface
         }
 
         $this->routes[$route] = $result;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function registerRestful(string $route, callable $action, array $allowedMethods = []): void
+    {
+        $this->restfulRoutes[] = new RestfulRoute($route, $action, $allowedMethods);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getRestfulRoutes(): array
+    {
+        return $this->restfulRoutes;
     }
 }

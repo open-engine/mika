@@ -11,6 +11,7 @@ use OpenEngine\Http\Exceptions\NotFoundHttpException;
 use OpenEngine\Http\Message\Request\RequestFactory;
 use OpenEngine\Http\Message\Uri\UriFactory;
 use OpenEngine\Mika\Core\Components\Route\Interfaces\RouteInterface;
+use OpenEngine\Mika\Core\Components\Route\Route;
 use Psr\Http\Message\RequestInterface;
 
 class Mika

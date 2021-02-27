@@ -21,9 +21,9 @@ class AfterCallActionEvent extends CallActionEventAbstract
      * @param string $controllerName
      * @param string $actionName
      * @param array $actionParams
-     * @param $response
+     * @param ResponseInterface $response
      */
-    public function __construct(string $controllerName, string $actionName, array $actionParams, $response)
+    public function __construct(string $controllerName, string $actionName, array $actionParams, ResponseInterface $response)
     {
         $this->response = $response;
 

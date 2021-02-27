@@ -5,31 +5,9 @@ namespace OpenEngine\Mika\Core\Components\Route\Interfaces;
 interface RouteConfigInterface
 {
     /**
-     * Returns array where keys is route name
-     * And values is some controller classes names
-     *
-     * ```
-     * array (
-     *      'foo' => [
-     *          'Acme\Foo\Controllers\FooController',
-     *          'Acme\Foo\Controllers\BarController',
-     *       ],
-     *      'bar' => [
-     *          'Acme\Bar\Controllers\BarController',
-     *          'Acme\Bar\Controllers\BazController',
-     *       ],
-     * )
-     *
-     * ```
-     *
-     * @return array
-     */
-    public function getRoutes(): array;
-
-    /**
      * Add route for controllers
      *
-     * If you wand that your controllers be able to handle rout starts as '/foo',
+     * If you wand that your controllers be able to handle route starts as '/foo',
      * You can do like this:
      * ```
      * add('foo', 'Your\Controllers\Namespaces');
@@ -57,4 +35,52 @@ interface RouteConfigInterface
      * @param string $controllersNamespace
      */
     public function register(string $route, string $controllersNamespace): void;
+
+
+    /**
+     * Returns array where keys is route name
+     * And values is some controller classes names
+     *
+     * ```
+     * array (
+     *      'foo' => [
+     *          'Acme\Foo\Controllers\FooController',
+     *          'Acme\Foo\Controllers\BarController',
+     *       ],
+     *      'bar' => [
+     *          'Acme\Bar\Controllers\BarController',
+     *          'Acme\Bar\Controllers\BazController',
+     *       ],
+     * )
+     *
+     * ```
+     *
+     * @return array
+     */
+    public function getRoutes(): array;
+
+    /**
+     * You can register restful route
+     *
+     * ```
+     * $config->registerRestful('/users/{id}/profile', '\Foo\BarController::BazAction', ['post', 'get']);
+     *
+     * $config->registerRestful('/users/', function() {
+     *      return new Response('Hello World!');
+     * });
+     *
+     * ```
+     *
+     * @param string $route
+     * @param callable $action
+     * @param array $allowedMethods If array is empty it means any http method is allowed
+     */
+    public function registerRestful(string $route, callable $action, array $allowedMethods = []): void;
+
+    /**
+     * Method must return restful routes list
+     *
+     * @return RestfulRouteInterface[]
+     */
+    public function getRestfulRoutes(): array;
 }
